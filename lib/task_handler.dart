@@ -9,7 +9,7 @@ abstract class TaskHandler {
   ///
   /// - .nothing() : Not use onRepeatEvent callback.
   /// - .once() : Call onRepeatEvent only once.
-  /// - .repeat(interval) : Call onRepeatEvent at milliseconds interval.
+  /// - .repeat(interval, delay) : Call onRepeatEvent at milliseconds interval.
   void onRepeatEvent(DateTime timestamp);
 
   /// Called when the task is destroyed.

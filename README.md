@@ -1,5 +1,8 @@
 This plugin is used to implement a foreground service on the Android platform.
 
+The forked features are these:
+* Added an optional delay for `ForegroundTaskEventAction.repeat`.
+
 <p>
 <a href="https://pub.dev/packages/flutter_foreground_task"><img src="https://img.shields.io/pub/v/flutter_foreground_task.svg" alt="pub"></a>
 <a href="https://github.com/Dev-hwang/flutter_foreground_task/actions"><img src="https://github.com/Dev-hwang/flutter_foreground_task/workflows/master/badge.svg" alt="build"></a>

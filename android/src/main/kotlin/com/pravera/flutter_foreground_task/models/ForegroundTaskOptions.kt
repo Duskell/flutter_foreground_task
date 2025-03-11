@@ -23,10 +23,11 @@ data class ForegroundTaskOptions(
                 // for deprecated api
                 val oldIsOnceEvent = prefs.getBoolean(PrefsKey.IS_ONCE_EVENT, false)
                 val oldInterval = prefs.getLong(PrefsKey.INTERVAL, 5000L)
+                val oldDelay = prefs.getLong(PrefsKey.DELAY, 1L)
                 if (oldIsOnceEvent) {
-                    ForegroundTaskEventAction(ForegroundTaskEventType.ONCE, oldInterval)
+                    ForegroundTaskEventAction(ForegroundTaskEventType.ONCE, oldInterval, oldDelay)
                 } else {
-                    ForegroundTaskEventAction(ForegroundTaskEventType.REPEAT, oldInterval)
+                    ForegroundTaskEventAction(ForegroundTaskEventType.REPEAT, oldInterval, oldDelay)
                 }
             }
 

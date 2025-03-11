@@ -47,7 +47,7 @@ A class that defines the action of onRepeatEvent in `TaskHandler`.
 |--------------------|------------------------------------------------|
 | `nothing()`        | Not use onRepeatEvent callback.                |
 | `once()`           | Call onRepeatEvent only once.                  |
-| `repeat(interval)` | Call onRepeatEvent at milliseconds `interval`. |
+| `repeat(interval)` | Call onRepeatEvent at milliseconds `interval` with a custom `delay` in Duration. |
 
 ### :chicken: NotificationIcon
 

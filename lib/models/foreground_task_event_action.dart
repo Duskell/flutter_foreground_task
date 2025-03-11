@@ -3,6 +3,7 @@ class ForegroundTaskEventAction {
   ForegroundTaskEventAction._private({
     required this.type,
     this.interval,
+    this.delay
   });
 
   /// Not use onRepeatEvent callback.
@@ -13,22 +14,25 @@ class ForegroundTaskEventAction {
   factory ForegroundTaskEventAction.once() =>
       ForegroundTaskEventAction._private(type: ForegroundTaskEventType.once);
 
-  /// Call onRepeatEvent at milliseconds [interval].
-  factory ForegroundTaskEventAction.repeat(int interval) =>
+  /// Call onRepeatEvent at milliseconds [interval] with a delay of [delay].
+  factory ForegroundTaskEventAction.repeat(Duration interval, Duration delay) =>
       ForegroundTaskEventAction._private(
-          type: ForegroundTaskEventType.repeat, interval: interval);
+          type: ForegroundTaskEventType.repeat, interval: interval, delay: delay);
 
   /// The type for [ForegroundTaskEventAction].
   final ForegroundTaskEventType type;
 
   /// The interval(in milliseconds) at which onRepeatEvent is invoked.
-  final int? interval;
+  final Duration? interval;
+
+  final Duration? delay;
 
   /// Returns the data fields of [ForegroundTaskEventAction] in JSON format.
   Map<String, dynamic> toJson() {
     return {
       'taskEventType': type.value,
-      'taskEventInterval': interval,
+      'taskEventInterval': interval?.inMilliseconds,
+      'taskEventDelay': delay?.inMilliseconds,
     };
   }
 }

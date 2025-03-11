@@ -43,6 +43,7 @@ object PreferencesKey {
     const val FOREGROUND_TASK_OPTIONS_PREFS = prefix + "FOREGROUND_TASK_OPTIONS"
     const val TASK_EVENT_ACTION = "taskEventAction" // new
     const val INTERVAL = "interval" // deprecated
+    const val DELAY = "delay" // deprecated
     const val IS_ONCE_EVENT = "isOnceEvent" // deprecated
     const val AUTO_RUN_ON_BOOT = "autoRunOnBoot"
     const val AUTO_RUN_ON_MY_PACKAGE_REPLACED = "autoRunOnMyPackageReplaced"

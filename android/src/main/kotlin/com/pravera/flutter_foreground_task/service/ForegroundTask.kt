@@ -2,6 +2,7 @@ package com.pravera.flutter_foreground_task.service
 
 import android.content.Context
 import android.util.Log
+import java.time.LocalTime
 import com.pravera.flutter_foreground_task.FlutterForegroundTaskLifecycleListener
 import com.pravera.flutter_foreground_task.FlutterForegroundTaskStarter
 import com.pravera.flutter_foreground_task.models.ForegroundServiceAction
@@ -108,6 +109,9 @@ class ForegroundTask(
 
         val type = taskEventAction.type
         val interval = taskEventAction.interval
+        val taskDelay = taskEventAction.delay
+
+        Log.d(TAG, "type: $type, interval: $interval, taskDelay: $taskDelay at ${LocalTime.now()}")
 
         if (type == ForegroundTaskEventType.NOTHING) {
             return
@@ -119,8 +123,15 @@ class ForegroundTask(
         }
 
         repeatTask = CoroutineScope(Dispatchers.Default).launch {
-            while (true) {
-                delay(interval)
+            delay(taskDelay)  // Initial delay before the first task
+            val intervalMillis = interval  // The interval between tasks
+
+            while (true) {  // Loop while the task is active
+                val taskStartTime = System.nanoTime()
+
+                Log.d(TAG, "repeatTask at ${LocalTime.now()}") // Debugging log
+
+                // Execute the task on the main thread
                 withContext(Dispatchers.Main) {
                     try {
                         invokeTaskRepeatEvent()
@@ -128,8 +139,19 @@ class ForegroundTask(
                         Log.e(TAG, "repeatTask", e)
                     }
                 }
+
+                // Calculate the time it took to complete the task
+                val taskExecutionTime = (System.nanoTime() - taskStartTime) / 1_000_000 // Convert to milliseconds
+
+                // Calculate the time until the next task should start
+                val nextTaskStartTime = taskStartTime + intervalMillis * 1_000_000L  // in nanoseconds
+                val timeToWait = nextTaskStartTime - System.nanoTime()  // in nanoseconds
+                delay(timeToWait.coerceAtLeast(0) / 1_000_000)  // Convert back to milliseconds and delay
             }
         }
+
+
+
     }
 
     private fun stopRepeatTask() {

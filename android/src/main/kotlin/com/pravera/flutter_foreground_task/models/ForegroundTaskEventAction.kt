@@ -5,11 +5,13 @@ import java.util.Objects
 
 data class ForegroundTaskEventAction(
     val type: ForegroundTaskEventType,
-    val interval: Long
+    val interval: Long,
+    val delay: Long
 ) {
     companion object {
         private const val TASK_EVENT_TYPE_KEY = "taskEventType"
         private const val TASK_EVENT_INTERVAL_KEY = "taskEventInterval"
+        private const val TASK_EVENT_DELAY_KEY = "taskEventDelay"
 
         fun fromJsonString(jsonString: String): ForegroundTaskEventAction {
             val jsonObj = JSONObject(jsonString)
@@ -28,7 +30,14 @@ data class ForegroundTaskEventAction(
                 value.toLong()
             }
 
-            return ForegroundTaskEventAction(type = type, interval = interval)
+            val delay: Long = if (jsonObj.isNull(TASK_EVENT_DELAY_KEY)) {
+                0L
+            } else {
+                val value = jsonObj.getInt(TASK_EVENT_DELAY_KEY)
+                value.toLong()
+            }
+
+            return ForegroundTaskEventAction(type = type, interval = interval, delay = delay)
         }
     }
 
@@ -36,10 +45,10 @@ data class ForegroundTaskEventAction(
         if (other == null || other !is ForegroundTaskEventAction) {
             return false
         }
-        return this.type.value == other.type.value && this.interval == other.interval
+        return this.type.value == other.type.value && this.interval == other.interval && this.delay == other.delay
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(type.value, interval)
+        return Objects.hash(type.value, interval, delay)
     }
 }
